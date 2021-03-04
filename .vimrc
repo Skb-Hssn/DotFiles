@@ -14,6 +14,8 @@ set smartcase
 set smartindent
 set incsearch
 
+set splitbelow
+set splitright
 
 set relativenumber
 set signcolumn=no
