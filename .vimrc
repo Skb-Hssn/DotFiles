@@ -27,17 +27,6 @@ set signcolumn=no
 "to show file name
 set laststatus=2 
 
-function RunFile()
-    if v:shell_error == 0
-        :! gnome-terminal -- bash -c "time ./%:r; echo ""; echo 'Press Enter to exit......'; read x"
-    endif
-endfunction
-
-autocmd filetype cpp nnoremap <F5> :w <bar> :! g++ -Wall -Wextra -std=c++17 % -o %:r <CR>
-autocmd filetype cpp nnoremap <F7> :w <bar> :! g++ -Wall -Wextra -pedantic -std=c++17 -O2 -Wshadow -Wformat=2 -Wfloat-equal -Wconversion -Wlogical-op -Wshift-overflow=2 -Wduplicated-cond -Wcast-qual -Wcast-align -D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC -D_FORTIFY_SOURCE=2 -fsanitize=address -fsanitize=undefined -fno-sanitize-recover -fstack-protector  % -o %:r <CR>
-autocmd filetype cpp nnoremap <F6> :w <bar> call RunFile() <CR> <CR>
-
-autocmd filetype python nnoremap <F6> :w <bar>  :! gnome-terminal -- bash -c "time python3 %; echo ""; echo 'Press Enter to exit......'; read x;" <CR><CR>
 
 
 set t_Co=256
@@ -195,3 +184,36 @@ set completeopt-=preview
 
 "vnoremap <leader>/ :s!^!//!<CR> :noh <CR> 
 "vnoremap \u :s!^//!!<CR>
+
+augroup exe_code
+    autocmd!
+    autocmd FileType python nnoremap <buffer> <F6>
+        \ :w <CR> :sp<CR> :term /usr/bin/time -f "-----------------\n  Real: \%e sec\n  User: \%U sec\nMemory: \%M KB" 
+        \ python3 %<CR> :startinsert<CR>
+
+    autocmd Filetype cpp nnoremap <buffer> <F5> 
+        \ :w <bar> :! g++ -Wall -Wextra -std=c++17 % -o %:r <CR>
+
+    autocmd Filetype cpp nnoremap <buffer> <F7> 
+        \ :w <bar> :! g++ -Wall -Wextra -pedantic -std=c++17 -O2 -Wshadow -Wformat=2 -Wfloat-equal 
+        \ -Wconversion -Wlogical-op -Wshift-overflow=2 -Wduplicated-cond -Wcast-qual -Wcast-align 
+        \ -D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC -D_FORTIFY_SOURCE=2 -fsanitize=address 
+        \ -fsanitize=undefined -fno-sanitize-recover -fstack-protector  % -o %:r <CR>
+
+    autocmd FileType cpp nnoremap <buffer> <F6>
+        \ :w <CR> :sp<CR> :term /usr/bin/time -f "-----------------\n  Real: \%e sec\n  User: \%U sec\nMemory: \%M KB" 
+        \ ./%:r<CR> :startinsert<CR>
+augroup END
+
+
+" function RunFile()
+"     if v:shell_error == 0
+"         :! gnome-terminal -- bash -c "time ./%:r; echo ""; echo 'Press Enter to exit......'; read x"
+"     endif
+" endfunction
+
+" autocmd filetype cpp nnoremap <F5> :w <bar> :! g++ -Wall -Wextra -std=c++17 % -o %:r <CR>
+" autocmd filetype cpp nnoremap <F7> :w <bar> :! g++ -Wall -Wextra -pedantic -std=c++17 -O2 -Wshadow -Wformat=2 -Wfloat-equal -Wconversion -Wlogical-op -Wshift-overflow=2 -Wduplicated-cond -Wcast-qual -Wcast-align -D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC -D_FORTIFY_SOURCE=2 -fsanitize=address -fsanitize=undefined -fno-sanitize-recover -fstack-protector  % -o %:r <CR>
+" autocmd filetype cpp nnoremap <F6> :w <bar> call RunFile() <CR> <CR>
+
+" autocmd filetype python nnoremap <F6> :w <bar>  :! gnome-terminal -- bash -c "time python3 %; echo ""; echo 'Press Enter to exit......'; read x;" <CR><CR>
