@@ -17,6 +17,8 @@ set incsearch
 set splitbelow
 set splitright
 
+"nnoremap ii ggVG=:w<CR>
+
 "Auto load file
 "set autoread
 "au CursorHold * checktime
@@ -46,17 +48,17 @@ imap jk <Esc>
 
 
 
-"this for cursor
-"if has("autocmd")
-"  au VimEnter,InsertLeave * silent execute '!echo -ne "\e[2 q"' | redraw!
-"  au InsertEnter,InsertChange *
-"\ if v:insertmode == 'i' | 
-"\   silent execute '!echo -ne "\e[6 q"' | redraw! |
-"\ elseif v:insertmode == 'r' |
-"\   silent execute '!echo -ne "\e[4 q"' | redraw! |
-"\ endif
-"au VimLeave * silent execute '!echo -ne "\e[ q"' | redraw!
-"endif
+" this for cursor
+if has("autocmd")
+  au VimEnter,InsertLeave * silent execute '!echo -ne "\e[2 q"' | redraw!
+  au InsertEnter,InsertChange *
+\ if v:insertmode == 'i' | 
+\   silent execute '!echo -ne "\e[6 q"' | redraw! |
+\ elseif v:insertmode == 'r' |
+\   silent execute '!echo -ne "\e[4 q"' | redraw! |
+\ endif
+au VimLeave * silent execute '!echo -ne "\e[ q"' | redraw!
+endif
 
 
 
@@ -67,40 +69,46 @@ imap jk <Esc>
 
 set rtp+=~/.vim/bundle/Vundle.vim
 
-call plug#begin('~/.vim/plugged')
+call vundle#begin()
 
-Plug 'git@github.com:Valloric/YouCompleteMe.git'
-Plug 'git@github.com:tpope/vim-commentary'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'preservim/nerdtree'
-Plug 'ryanoasis/vim-devicons'
+Plugin 'VundleVim/Vundle.vim'
+
+Plugin 'Valloric/YouCompleteMe.git'
+Plugin 'tpope/vim-commentary'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+Plugin 'preservim/nerdtree'
+Plugin 'ryanoasis/vim-devicons'
 
 "File Auto Load
-Plug 'djoshea/vim-autoread'
+Plugin 'djoshea/vim-autoread'
 
 "Window Swap
-Plug 'wesQ3/vim-windowswap'
+Plugin 'wesQ3/vim-windowswap'
 
 "kotlin
-Plug 'udalov/kotlin-vim'
+Plugin 'udalov/kotlin-vim'
 
 "Snippets
-Plug 'SirVer/ultisnips'
-"Plug 'honza/vim-snippets'
+Plugin 'SirVer/ultisnips'
+"Plugin 'honza/vim-snippets'
 
 
 "Themes
-Plug 'kaicataldo/material.vim', { 'branch': 'main' }
-Plug 'lifepillar/vim-solarized8'
-Plug 'git@github.com:ayu-theme/ayu-vim'
-Plug 'git@github.com:morhetz/gruvbox'
-Plug 'arcticicestudio/nord-vim'
-Plug 'flazz/vim-colorschemes'
+Plugin 'kaicataldo/material.vim', { 'branch': 'main' }
+Plugin 'lifepillar/vim-solarized8'
+Plugin 'ayu-theme/ayu-vim'
+Plugin 'morhetz/gruvbox'
+Plugin 'arcticicestudio/nord-vim'
+Plugin 'flazz/vim-colorschemes'
+Plugin 'haishanh/night-owl.vim'
+Plugin 'rakr/vim-one'
+Plugin 'overcache/NeoSolarized'
 
-call plug#end()
+call vundle#end()  
 
 
+set hidden
 
 let g:gruvbox_contrast_light = 'soft'
 let g:gruvbox_contrast_dark = 'hard'
@@ -122,9 +130,16 @@ let g:material_theme_style = 'darker-community'
 
 
 
-colorscheme solarized8_light_high
+" colorscheme solarized8_light_high
+" colorscheme solarized8_light_high
+colorscheme night-owl
+" colorscheme gruvbox
+" colorscheme NeoSolarized
 
-set background=light
+
+set background=dark
+
+" colorscheme one
 
 "pulumi
 "hi Normal guibg=NONE ctermbg=NONE ctermfg=256
@@ -132,6 +147,7 @@ set background=light
 
 let g:airline_powerline_fonts = 1
 let g:airline_section_y = ''
+
 
 
 
@@ -172,7 +188,6 @@ autocmd FileType python setlocal commentstring=#\ %s
 noremap <leader>/ :Commentary<cr>
 
 
-
 "Snippets
 let g:UltiSnipsExpandTrigger = 'cm'
 
@@ -203,6 +218,17 @@ augroup exe_code
     autocmd FileType cpp nnoremap <buffer> <F6>
         \ :w <CR> :sp<CR> :term /usr/bin/time -f "-----------------\n  Real: \%e sec\n  User: \%U sec\nMemory: \%M KB" 
         \ ./%:r<CR> :startinsert<CR>
+
+    autocmd FileType java nnoremap <buffer> <F5>
+        \ :w <bar> :! javac % <CR>
+
+    autocmd FileType java nnoremap <buffer> <F7>
+        \ :w <bar> :! javac -Xlint:all % <CR>
+
+    autocmd Filetype java nnoremap <buffer> <F6>
+        \ :w <CR> :sp<CR> :term /usr/bin/time -f "-----------------\n  Real: \%e sec\n  User: \%U sec\nMemory: \%M KB" 
+        \ java %:r<CR> :startinsert<CR>
+
 augroup END
 
 
@@ -217,3 +243,6 @@ augroup END
 " autocmd filetype cpp nnoremap <F6> :w <bar> call RunFile() <CR> <CR>
 
 " autocmd filetype python nnoremap <F6> :w <bar>  :! gnome-terminal -- bash -c "time python3 %; echo ""; echo 'Press Enter to exit......'; read x;" <CR><CR>
+"
+let g:python3_host_prog = '/usr/bin/python3.9'
+let g:python_host_prog = '/usr/bin/python2.7'
