@@ -1,3 +1,10 @@
+" curl -fLO $HOME/.config/nvim/autoload/plug.vim --create-dirs \
+" https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+
+" set runtimepath^=~/.vim runtimepath+=~/.vim/after
+" let &packpath=&runtimepath
+" source ~/.vimrc
+
 syntax on
 
 set nu
@@ -17,26 +24,16 @@ set incsearch
 set splitbelow
 set splitright
 
-"nnoremap ii ggVG=:w<CR>
-
-"Auto load file
-"set autoread
-"au CursorHold * checktime
-
 set relativenumber
 set signcolumn=no
 
 "to show file name
 set laststatus=2 
 
+set hidden
 
 
 set t_Co=256
-"set background=light
-
-"for gruvbox
-"hi Normal          ctermfg=252 ctermbg=252
-
 
 let mapleader = " "
 
@@ -47,68 +44,69 @@ nnoremap <leader>s :w<Enter>
 imap jk <Esc>
 
 
-
-" this for cursor
-if has("autocmd")
-  au VimEnter,InsertLeave * silent execute '!echo -ne "\e[2 q"' | redraw!
-  au InsertEnter,InsertChange *
-\ if v:insertmode == 'i' | 
-\   silent execute '!echo -ne "\e[6 q"' | redraw! |
-\ elseif v:insertmode == 'r' |
-\   silent execute '!echo -ne "\e[4 q"' | redraw! |
-\ endif
-au VimLeave * silent execute '!echo -ne "\e[ q"' | redraw!
-endif
-
-
+"========================cursor=================================
+" if has("autocmd")
+"  au VimEnter,InsertLeave * silent execute '!echo -ne "\e[2 q"' | redraw!
+"  au InsertEnter,InsertChange *
+" \ if v:insertmode == 'i' | 
+" \   silent execute '!echo -ne "\e[6 q"' | redraw! |
+" \ elseif v:insertmode == 'r' |
+" \   silent execute '!echo -ne "\e[4 q"' | redraw! |
+" \ endif
+" au VimLeave * silent execute '!echo -ne "\e[ q"' | redraw!
+" endif
+" ================================================================
 
 
 
-"yy to copy a line and p to paste
-"cntrl r to redo
 
-set rtp+=~/.vim/bundle/Vundle.vim
+"===========================Plugins==============================
 
-call vundle#begin()
+call plug#begin('~/.config/nvim/plugged')
 
-Plugin 'VundleVim/Vundle.vim'
+" Plug 'https://github.com/ycm-core/YouCompleteMe.git'
 
-Plugin 'Valloric/YouCompleteMe.git'
-Plugin 'tpope/vim-commentary'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'preservim/nerdtree'
-Plugin 'ryanoasis/vim-devicons'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+Plug 'tpope/vim-commentary'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'preservim/nerdtree'
+Plug 'ryanoasis/vim-devicons'
 
 "File Auto Load
-Plugin 'djoshea/vim-autoread'
+Plug 'djoshea/vim-autoread'
 
 "Window Swap
-Plugin 'wesQ3/vim-windowswap'
+Plug 'wesQ3/vim-windowswap'
 
 "kotlin
-Plugin 'udalov/kotlin-vim'
+Plug 'udalov/kotlin-vim'
 
 "Snippets
-Plugin 'SirVer/ultisnips'
+Plug 'SirVer/ultisnips'
 "Plugin 'honza/vim-snippets'
 
 
 "Themes
-Plugin 'kaicataldo/material.vim', { 'branch': 'main' }
-Plugin 'lifepillar/vim-solarized8'
-Plugin 'ayu-theme/ayu-vim'
-Plugin 'morhetz/gruvbox'
-Plugin 'arcticicestudio/nord-vim'
-Plugin 'flazz/vim-colorschemes'
-Plugin 'haishanh/night-owl.vim'
-Plugin 'rakr/vim-one'
-Plugin 'overcache/NeoSolarized'
+Plug 'kaicataldo/material.vim', { 'branch': 'main' }
+Plug 'lifepillar/vim-solarized8'
+Plug 'ayu-theme/ayu-vim'
+Plug 'morhetz/gruvbox'
+Plug 'arcticicestudio/nord-vim'
+Plug 'flazz/vim-colorschemes'
+Plug 'haishanh/night-owl.vim'
+Plug 'rakr/vim-one'
+Plug 'overcache/NeoSolarized'
 
-call vundle#end()  
+call plug#end()
+"=================================================================
 
 
-set hidden
+
+
+
+"=========================ColorSchemes============================
 
 let g:gruvbox_contrast_light = 'soft'
 let g:gruvbox_contrast_dark = 'hard'
@@ -132,8 +130,8 @@ let g:material_theme_style = 'darker-community'
 
 " colorscheme solarized8_light_high
 " colorscheme solarized8_light_high
-colorscheme night-owl
-" colorscheme gruvbox
+" colorscheme night-owl
+colorscheme gruvbox
 " colorscheme NeoSolarized
 
 
@@ -143,62 +141,140 @@ set background=dark
 
 "pulumi
 "hi Normal guibg=NONE ctermbg=NONE ctermfg=256
+"==================================================================
 
+
+
+
+"==========================Airline=================================
 
 let g:airline_powerline_fonts = 1
 let g:airline_section_y = ''
 
+"==================================================================
 
 
+
+
+
+"========================NerdTree==================================
 
 nnoremap <leader>nt :NERDTreeToggle<CR>
 
+"==================================================================
 
 
-"Better window navigation
+
+
+
+"==================== Better window navigation =====================
+
 nnoremap <leader>j <C-w>j
 nnoremap <leader>k <C-w>k
 nnoremap <leader>h <C-w>h
 nnoremap <leader>l <C-w>l
 
-"Tab navigation
+"===================================================================
+
+
+
+
+
+"==========================Tab navigation===========================
+
 nnoremap H gT
 nnoremap L gt
 
-"new tabe in normal
+"===================================================================
+
+
+
+"====================== new tabe in normal =========================
+
 nnoremap <Tab> :bnext<Enter>
 nnoremap <S-Tab> :bprev<Enter>
 
+"===================================================================
 
 
+
+
+
+"=========================== YCM ====================================
 "hover for ycm
-nmap <leader>D <plug>(YCMHover)
+" nmap <leader>D <plug>(YCMHover)
 
 "diags for ycm
-nmap <leader>yd :YcmDiags<CR>
+" nmap <leader>yd :YcmDiags<CR>
 
 
 
-let g:ycm_autoclose_preview_window_after_insertion = 1
+" let g:ycm_autoclose_preview_window_after_insertion = 1
+
+"preview window disable ycm
+set completeopt-=preview
+"=====================================================================
 
 
-"Comment 
+
+
+"=========================== Coc ======================================
+
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+"navigate completion list
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+"rename
+nmap <leader>rn <Plug>(coc-rename)
+
+"navigate to diagonstic
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" Show all diagnostics.
+nnoremap <silent><nowait> <space>d  :<C-u>CocList diagnostics<cr>
+
+" Definition
+nmap <silent> gd <Plug>(coc-definition)
+
+"=======================================================================
+
+
+
+
+
+"============================ Comment ==================================
+
 autocmd FileType c,cpp,cs,java setlocal commentstring=//\ %s
 autocmd FileType python setlocal commentstring=#\ %s
 noremap <leader>/ :Commentary<cr>
 
+"=======================================================================
 
-"Snippets
+
+
+
+"=========================== Snippet ===================================
+
 let g:UltiSnipsExpandTrigger = 'cm'
 
-
-"preview window disable ycm
-set completeopt-=preview
+"=======================================================================
 
 
 
+
+"==========================Comment=======================================
 "vnoremap <leader>/ :s!^!//!<CR> :noh <CR> 
 "vnoremap \u :s!^//!!<CR>
+"========================================================================
+
+
+
+
+"============================Compile and Run=============================
 
 augroup exe_code
     autocmd!
@@ -231,6 +307,9 @@ augroup exe_code
 
 augroup END
 
+"============================================================================
+
+
 
 " function RunFile()
 "     if v:shell_error == 0
@@ -244,5 +323,3 @@ augroup END
 
 " autocmd filetype python nnoremap <F6> :w <bar>  :! gnome-terminal -- bash -c "time python3 %; echo ""; echo 'Press Enter to exit......'; read x;" <CR><CR>
 "
-let g:python3_host_prog = '/usr/bin/python3.9'
-let g:python_host_prog = '/usr/bin/python2.7'
