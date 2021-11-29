@@ -64,9 +64,9 @@ imap jk <Esc>
 
 call plug#begin('~/.config/nvim/plugged')
 
-" Plug 'https://github.com/ycm-core/YouCompleteMe.git'
+Plug 'https://github.com/ycm-core/YouCompleteMe.git'
 
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+"Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 Plug 'tpope/vim-commentary'
 Plug 'vim-airline/vim-airline'
@@ -87,6 +87,12 @@ Plug 'udalov/kotlin-vim'
 Plug 'SirVer/ultisnips'
 "Plugin 'honza/vim-snippets'
 
+" Plug 'octol/vim-cpp-enhanced-highlight'
+"
+
+Plug 'voldikss/vim-floaterm'
+
+Plug 'preservim/tagbar'
 
 "Themes
 Plug 'kaicataldo/material.vim', { 'branch': 'main' }
@@ -98,11 +104,13 @@ Plug 'flazz/vim-colorschemes'
 Plug 'haishanh/night-owl.vim'
 Plug 'rakr/vim-one'
 Plug 'overcache/NeoSolarized'
+Plug 'chriskempson/tomorrow-theme'
+
+
+Plug 'searleser97/cpbooster.vim'
 
 call plug#end()
 "=================================================================
-
-
 
 
 
@@ -133,6 +141,7 @@ let g:material_theme_style = 'darker-community'
 " colorscheme night-owl
 colorscheme gruvbox
 " colorscheme NeoSolarized
+" colorscheme Tomorrow-Night
 
 
 set background=dark
@@ -141,6 +150,10 @@ set background=dark
 
 "pulumi
 "hi Normal guibg=NONE ctermbg=NONE ctermfg=256
+
+"Transparent bg
+highlight Normal guibg=none
+highlight NonText guibg=none
 "==================================================================
 
 
@@ -164,6 +177,17 @@ nnoremap <leader>nt :NERDTreeToggle<CR>
 "==================================================================
 
 
+
+"=========================CPP-HighLight=============================
+
+" let g:cpp_class_scope_highlight = 1
+" let g:cpp_member_variable_highlight = 1
+" let g:cpp_class_decl_highlight = 0
+" let g:cpp_posix_standard = 1
+" let g:cpp_experimental_simple_template_highlight = 1
+" let g:cpp_experimental_template_highlight = 1
+
+"===================================================================
 
 
 
@@ -205,7 +229,7 @@ nnoremap <S-Tab> :bprev<Enter>
 " nmap <leader>D <plug>(YCMHover)
 
 "diags for ycm
-" nmap <leader>yd :YcmDiags<CR>
+nmap <leader>yd :YcmDiags<CR>
 
 
 
@@ -213,6 +237,7 @@ nnoremap <S-Tab> :bprev<Enter>
 
 "preview window disable ycm
 set completeopt-=preview
+
 "=====================================================================
 
 
@@ -220,25 +245,25 @@ set completeopt-=preview
 
 "=========================== Coc ======================================
 
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+"inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+"                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
-"navigate completion list
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+""navigate completion list
+"inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+"inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
-"rename
-nmap <leader>rn <Plug>(coc-rename)
+""rename
+"nmap <leader>rn <Plug>(coc-rename)
 
-"navigate to diagonstic
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
+""navigate to diagonstic
+"nmap <silent> [g <Plug>(coc-diagnostic-prev)
+"nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
-" Show all diagnostics.
-nnoremap <silent><nowait> <space>d  :<C-u>CocList diagnostics<cr>
+"" Show all diagnostics.
+"nnoremap <silent><nowait> <space>d  :<C-u>CocList diagnostics<cr>
 
-" Definition
-nmap <silent> gd <Plug>(coc-definition)
+"" Definition
+"nmap <silent> gd <Plug>(coc-definition)
 
 "=======================================================================
 
@@ -271,6 +296,15 @@ let g:UltiSnipsExpandTrigger = 'cm'
 "vnoremap \u :s!^//!!<CR>
 "========================================================================
 
+
+
+
+"========================CPBooster=======================================
+
+nnoremap <leader>t :Test<CR>
+nnoremap <leader>qt <C-w>l:q<CR>
+
+"========================================================================
 
 
 
