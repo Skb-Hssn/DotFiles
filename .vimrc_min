@@ -1,0 +1,31 @@
+imap jk <Esc>
+nnoremap <C-s> :source ~/.vimrc<CR>
+
+set nu
+set mouse=a
+set autoindent
+set tabstop=4
+set shiftwidth=4
+set smartindent
+set relativenumber
+set laststatus=2
+
+let mapleader = " "
+
+nnoremap <leader>s :w<Enter>
+nnoremap <leader>y ggVG"+y<CR>
+
+syntax on
+
+nnoremap H gT
+nnoremap L gt
+
+nnoremap <Tab> :bnext<CR>
+nnoremap <S-Tab> :bprev<CR>
+
+
+vnoremap <leader>/ :s!^!//!<CR> :noh <CR> 
+vnoremap <leader>u :s!^//!!<CR>
+
+nnoremap <leader>/ :s!^!//!<CR> :noh <CR> 
+nnoremap <leader>u :s!^//!!<CR> 
