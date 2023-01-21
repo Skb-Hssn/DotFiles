@@ -9,6 +9,7 @@ set shiftwidth=4
 set smartindent
 set relativenumber
 set laststatus=2
+set hlsearch
 
 let mapleader = " "
 
