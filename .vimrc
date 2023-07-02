@@ -27,6 +27,9 @@ set splitright
 set relativenumber
 set signcolumn=no
 
+set updatetime=300
+
+
 "to show file name
 set laststatus=2 
 
@@ -39,6 +42,8 @@ let mapleader = " "
 
 nnoremap <leader>y ggVG"+y''
 nnoremap <leader>s :w<Enter>
+nnoremap J 4j
+nnoremap K 4k
 
 
 imap jk <Esc>
@@ -64,13 +69,13 @@ imap jk <Esc>
 
 call plug#begin('~/.config/nvim/plugged')
 
-Plug 'https://github.com/ycm-core/YouCompleteMe.git'
+"Plug 'https://github.com/ycm-core/YouCompleteMe.git'
 
-"Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 Plug 'tpope/vim-commentary'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+" Plug 'vim-airline/vim-airline'
+" Plug 'vim-airline/vim-airline-themes'
 Plug 'preservim/nerdtree'
 Plug 'ryanoasis/vim-devicons'
 
@@ -83,16 +88,28 @@ Plug 'wesQ3/vim-windowswap'
 "kotlin
 Plug 'udalov/kotlin-vim'
 
+"Dart
+Plug 'dart-lang/dart-vim-plugin'
+
+"Go
+Plug 'fatih/vim-go'
+
 "Snippets
 Plug 'SirVer/ultisnips'
 "Plugin 'honza/vim-snippets'
 
-" Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'octol/vim-cpp-enhanced-highlight'
 "
 
 Plug 'voldikss/vim-floaterm'
 
 Plug 'preservim/tagbar'
+
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'romgrk/barbar.nvim'
+
+Plug 'nvim-lualine/lualine.nvim'
+
 
 "Themes
 Plug 'kaicataldo/material.vim', { 'branch': 'main' }
@@ -105,6 +122,8 @@ Plug 'haishanh/night-owl.vim'
 Plug 'rakr/vim-one'
 Plug 'overcache/NeoSolarized'
 Plug 'chriskempson/tomorrow-theme'
+Plug 'sainnhe/gruvbox-material'
+Plug 'savq/melange'
 
 
 Plug 'searleser97/cpbooster.vim'
@@ -118,6 +137,10 @@ call plug#end()
 
 let g:gruvbox_contrast_light = 'soft'
 let g:gruvbox_contrast_dark = 'hard'
+let g:gruvbox_bold=0
+let g:gruvbox_transparent_bg=1
+" let g:gruvbox_improved_strings=1
+let g:gruvbox_improved_warnings=1
 
 
 "Ayu
@@ -137,14 +160,21 @@ let g:material_theme_style = 'darker-community'
 
 
 " colorscheme solarized8_light_high
-" colorscheme solarized8_light_high
 " colorscheme night-owl
-colorscheme gruvbox
+" colorscheme gruvbox
 " colorscheme NeoSolarized
 " colorscheme Tomorrow-Night
-
+" colorscheme melange
+colorscheme ayu 
 
 set background=dark
+
+" let g:gruvbox_material_background = 'hard'
+" let g:gruvbox_material_enable_italic = 1
+" let g:gruvbox_material_disable_italic_comment = 1
+
+" colorscheme gruvbox-material
+
 
 " colorscheme one
 
@@ -154,6 +184,9 @@ set background=dark
 "Transparent bg
 highlight Normal guibg=none
 highlight NonText guibg=none
+
+
+
 "==================================================================
 
 
@@ -165,8 +198,6 @@ let g:airline_powerline_fonts = 1
 let g:airline_section_y = ''
 
 "==================================================================
-
-
 
 
 
@@ -245,22 +276,22 @@ set completeopt-=preview
 
 "=========================== Coc ======================================
 
-"inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-"                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
-""navigate completion list
-"inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-"inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+"navigate completion list
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
-""rename
+"rename
 "nmap <leader>rn <Plug>(coc-rename)
 
 ""navigate to diagonstic
 "nmap <silent> [g <Plug>(coc-diagnostic-prev)
 "nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
-"" Show all diagnostics.
-"nnoremap <silent><nowait> <space>d  :<C-u>CocList diagnostics<cr>
+" Show all diagnostics.
+nnoremap <silent><nowait> <space>d  :<C-u>CocList diagnostics<cr>
 
 "" Definition
 "nmap <silent> gd <Plug>(coc-definition)
@@ -284,7 +315,7 @@ noremap <leader>/ :Commentary<cr>
 
 "=========================== Snippet ===================================
 
-let g:UltiSnipsExpandTrigger = 'cm'
+let g:UltiSnipsExpandTrigger = '<C-j>'
 
 "=======================================================================
 
@@ -308,7 +339,54 @@ nnoremap <leader>qt <C-w>l:q<CR>
 
 
 
+
+
+"========================LuaLine=======================================
+lua << END
+require('lualine').setup
+{
+    options = {
+    icons_enabled = true,
+    theme = 'auto',
+    component_separators = { left = '', right = ''},
+    section_separators = { left = '', right = ''},
+    disabled_filetypes = {},
+    always_divide_middle = true,
+    globalstatus = false,
+  },
+  sections = {
+    lualine_a = {'mode'},
+    lualine_b = {'branch', 'diff', 'diagnostics'},
+    lualine_c = {'filename'},
+    lualine_x = {'encoding', 'fileformat', 'filetype'},
+    lualine_y = {'progress'},
+    lualine_z = {'location'}
+  },
+  inactive_sections = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = {'filename'},
+    lualine_x = {'location'},
+    lualine_y = {},
+    lualine_z = {}
+  },
+  tabline = {},
+  extensions = {}
+}
+
+END
+"========================================================================
+
+
+
 "============================Compile and Run=============================
+
+function RunFileGo()
+    :! go build -o %:r %
+    if v:shell_error == 0
+        :! gnome-terminal -- bash -c "time ./%:r; echo ""; echo 'Press Enter to exit......'; read x"
+    endif
+endfunction
 
 augroup exe_code
     autocmd!
@@ -339,10 +417,24 @@ augroup exe_code
         \ :w <CR> :sp<CR> :term /usr/bin/time -f "-----------------\n  Real: \%e sec\n  User: \%U sec\nMemory: \%M KB" 
         \ java %:r<CR> :startinsert<CR>
 
+    autocmd Filetype go nnoremap <buffer> <F5> 
+        \ :w <bar> :! go build -o %:r % <CR>
+    
+    autocmd Filetype go nnoremap <buffer> <F6> 
+        \ :w <bar> call RunFileGo() <CR>
+
+
 augroup END
 
 "============================================================================
 
+
+
+
+"================================Floaterm====================================
+let g:floaterm_keymap_new = '<Leader>ft'
+let g:floaterm_keymap_toggle = '<F12>'
+"============================================================================
 
 
 " function RunFile()
