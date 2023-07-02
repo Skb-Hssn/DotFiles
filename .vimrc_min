@@ -9,6 +9,7 @@ set shiftwidth=4
 set smartindent
 set relativenumber
 set laststatus=2
+set clipboard=unnamed
 set hlsearch
 
 let mapleader = " "
@@ -24,9 +25,14 @@ nnoremap L gt
 nnoremap <Tab> :bnext<CR>
 nnoremap <S-Tab> :bprev<CR>
 
+nnoremap J 4j
+nnoremap K 4k
+
 
 vnoremap <leader>/ :s!^!//!<CR> :noh <CR> 
 vnoremap <leader>u :s!^//!!<CR>
 
 nnoremap <leader>/ :s!^!//!<CR> :noh <CR> 
-nnoremap <leader>u :s!^//!!<CR> 
+nnoremap <leader>u :s!^//!!<CR>
+
+nnoremap <F5> :! g++ -Wall -Wextra -std=c++17 % -o %:r && echo "-------Compiled.------" && ./%:r <CR>
